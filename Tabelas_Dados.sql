@@ -30,7 +30,6 @@ Select distinct Produto, GrupoProduto
 From Temp;
 
 create table Fornece(
-Id int not null Primary Key,
 CnpjPosto varchar(50) not null,
 ProdutoNome varchar(50) not null, 
 Distribuidora varchar(100) not null,
@@ -39,28 +38,43 @@ on update cascade
 on delete cascade,
 foreign key (ProdutoNome) References Produto(Nome)
 on update cascade
-on delete cascade
+on delete cascade,
+primary key (CnpjPosto, ProdutoNome)
 );
 
-Insert Into fornece(Id, CnpjPosto, ProdutoNome, Distribuidora)
-Select distinct IdNumeric, CnpjPosto, Produto, Distribuidora
+Insert Into fornece(CnpjPosto, ProdutoNome, Distribuidora)
+Select distinct CnpjPosto, Produto, Distribuidora
 From Temp;
 
 Create table Teste(
+Id int not null primary Key,
 CnpjPosto varchar(50) not null, 
 ProdutoNome varchar(50) not null,
 DataColeta varchar(20),
-Ensaio varchar(50) not null,
-Resultado varchar(100),
-Conforme varchar(5),
 foreign key (CnpjPosto) References Posto(cnpj)
 on update cascade
 on delete cascade,
 foreign key (ProdutoNome) References Produto(Nome)
 on update cascade
-on delete cascade,
-primary key (CnpjPosto, ProdutoNome, Ensaio)
+on delete cascade
 );
+
+Insert Into Teste(Id, CnpjPosto, ProdutoNome, DataColeta)
+Select distinct IdNumeric, CnpjPosto, Produto, DataColeta
+From Temp;
+
+Create Table Ensaio(
+IdTeste int not null, 
+EnsaioNome varchar(50) not null,
+Resultado varchar(100),
+Conforme varchar(5),
+Foreign key (Idteste) references Teste(Id),
+primary key(IdTeste, EnsaioNome)
+);
+
+Insert Into Ensaio(IdTeste, EnsaioNome, Resultado, Conforme)
+Select distinct IdNumeric, Ensaio, Resultado, Conforme
+From Temp;
 
 
 
