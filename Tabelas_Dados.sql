@@ -47,10 +47,10 @@ Select distinct IdNumeric, CnpjPosto, Produto, Distribuidora
 From Temp;
 
 Create table Teste(
-CnpjPosto varchar(50), 
-ProdutoNome varchar(50),
+CnpjPosto varchar(50) not null, 
+ProdutoNome varchar(50) not null,
 DataColeta varchar(20),
-Ensaio varchar(50),
+Ensaio varchar(50) not null,
 Resultado varchar(100),
 Conforme varchar(5),
 foreign key (CnpjPosto) References Posto(cnpj)
@@ -58,17 +58,9 @@ on update cascade
 on delete cascade,
 foreign key (ProdutoNome) References Produto(Nome)
 on update cascade
-on delete cascade
+on delete cascade,
+primary key (CnpjPosto, ProdutoNome, Ensaio)
 );
-
-Insert Into Teste(CnpjPosto, ProdutoNome, DataColeta, Ensaio, Resultado, Conforme)
-Select distinct CnpjPosto, Produto, DataColeta, Ensaio, Resultado, Conforme
-From Temp;
-
-Select distinct resultado
-from temp;
-
-
 
 
 
